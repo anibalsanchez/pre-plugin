@@ -15,7 +15,7 @@ define(
 
 class Parser
 {
-    private $macro = [];
+    private $macros = [];
     private $literalMacro = [];
     private $compilers = [];
 
