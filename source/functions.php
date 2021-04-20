@@ -56,6 +56,13 @@ if (!function_exists("\\Pre\\Plugin\\addMacro")) {
     }
 }
 
+if (!function_exists("\\Pre\\Plugin\\addLiteralMacro")) {
+    function addLiteralMacro($macro) {
+        $instance = instance();
+        return $instance->addLiteralMacro($macro);
+    }
+}
+
 if (!function_exists("\\Pre\\Plugin\\removeMacro")) {
     function removeMacro($macro) {
         $instance = instance();

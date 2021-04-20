@@ -16,7 +16,21 @@ class FunctionTest extends TestCase
 
         $this->assertEquals($expected, $actual);
     }
-    
+
+    /**
+     * @test
+     */
+    public function can_add_custom_literal_macros()
+    {
+        $literalMacro = __DIR__ . "/fixtures/find-replace.yay";
+        Pre\Plugin\addLiteralMacro(file_get_contents($literalMacro));
+
+        $actual = Pre\Plugin\parse("<?php\n\nfind;\n");
+        $expected = "<?php\n\nreplace;\n";
+
+        $this->assertEquals($expected, $actual);
+    }
+
     /**
      * @test
      */
@@ -26,13 +40,13 @@ class FunctionTest extends TestCase
 
         Pre\Plugin\addMacro($path);
         Pre\Plugin\removeMacro($path);
-        
+
         $actual = Pre\Plugin\parse("<?php\n\nfind;\n");
         $expected = "<?php\n\nfind;\n";
 
         $this->assertEquals($expected, $actual);
     }
-    
+
     /**
      * @test
      * @dataProvider macros

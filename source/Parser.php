@@ -16,12 +16,18 @@ define(
 
 class Parser
 {
-    private $macro = [];
+    private $macros = [];
+    private $literalMacro = [];
     private $compilers = [];
 
     public function addMacro($macro)
     {
         $this->macros[$macro] = true;
+    }
+
+    public function addLiteralMacro($literalMacro)
+    {
+        $this->literalMacro[] = $literalMacro;
     }
 
     public function removeMacro($macro)
@@ -153,6 +159,7 @@ class Parser
     public function parse($code)
     {
         $code = $this->getCodeWithMacros($code);
+        $code = $this->getCodeWithLiteralMacros($code);
         $code = $this->getCodeWithCompilers($code);
 
         $engine = new Engine();
@@ -181,6 +188,17 @@ class Parser
             if (file_exists($macro)) {
                 $code = str_replace("<?php", file_get_contents($macro), $code);
             }
+        }
+
+        return $code;
+    }
+
+    private function getCodeWithLiteralMacros($code)
+    {
+        $macros = implode("\n\n", $this->literalMacro);
+
+        if (!empty($macros)) {
+            $code = str_replace("<?php", $macros, $code);
         }
 
         return $code;
