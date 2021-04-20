@@ -22,10 +22,12 @@ class FunctionTest extends TestCase
      */
     public function can_add_custom_literal_macros()
     {
-        $literalMacro = __DIR__ . "/fixtures/find-replace.yay";
-        Pre\Plugin\addLiteralMacro(file_get_contents($literalMacro));
+        $parser = new \Pre\Plugin\Parser();
 
-        $actual = Pre\Plugin\parse("<?php\n\nfind;\n");
+        $literalMacro = __DIR__ . "/fixtures/find-replace.yay";
+        $parser->addLiteralMacro(file_get_contents($literalMacro));
+
+        $actual = $parser->parse("<?php\n\nfind;\n");
         $expected = "<?php\n\nreplace;\n";
 
         $this->assertEquals($expected, $actual);
